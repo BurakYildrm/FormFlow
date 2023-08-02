@@ -399,6 +399,7 @@ app.post("/api/user/add-reader", express.json(), async (req, res) => {
 	});
 
 	await newUser.save();
+	res.status(200).send({ data: { user: newUser } });
 });
 
 app.get("/api/users", async (req, res) => {
