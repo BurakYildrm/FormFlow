@@ -148,7 +148,7 @@ async function checkTokenAndRole(req, res, roleList = null) {
 }
 
 app.post("/api/user/login", express.json(), async (req, res) => {
-	const { username, password } = req.body;
+	const { username, password, expiry } = req.body;
 
 	if (!username) {
 		res.status(400).send({ error: "Username is required" });
@@ -178,7 +178,7 @@ app.post("/api/user/login", express.json(), async (req, res) => {
 	};
 
 	const jwtToken = jwt.sign(jwtTokenPayload, process.env.JWT_SECRET_KEY, {
-		expiresIn: "10m",
+		expiresIn: expiry,
 	});
 
 	res.status(200).send({ data: { user: user, token: jwtToken } });
