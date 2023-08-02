@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
 	const initialTheme =
@@ -27,7 +28,12 @@ const Navbar: React.FC = () => {
 		<>
 			<div className="navbar bg-base-100">
 				<div className="flex-1">
-					<a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+					<Link
+						href="/"
+						className="btn btn-ghost normal-case text-xl hover:bg-transparent"
+					>
+						FormFlow
+					</Link>
 				</div>
 				<div className="flex-none">
 					<label className="swap swap-rotate mx-4">

@@ -11,11 +11,17 @@ export interface LoginResponse {
 	};
 }
 
+export interface CheckLoginResponse {
+	data: {
+		user: User;
+	};
+}
+
 export interface LoginError {
 	error: string;
 }
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [username, setUsername] = React.useState<string>("");
@@ -35,7 +41,7 @@ const LoginForm = () => {
 				return;
 			}
 
-			const response = await (
+			const response: CheckLoginResponse | LoginError = await (
 				await fetch("/api/check-login", {
 					cache: "no-cache",
 					method: "POST",
@@ -61,23 +67,14 @@ const LoginForm = () => {
 					},
 				});
 
-				if (rememberMe) {
-					localStorage.removeItem("token");
-				} else {
-					sessionStorage.removeItem("token");
-				}
-
+				localStorage.removeItem("token");
 				return;
 			}
 
 			router.push("/");
 		};
 
-		checkLogin(
-			rememberMe
-				? localStorage.getItem("token") ?? ""
-				: sessionStorage.getItem("token") ?? ""
-		);
+		checkLogin(localStorage.getItem("token") ?? "");
 	}, []);
 
 	const login = async (e: FormEvent<HTMLFormElement>) => {
@@ -92,6 +89,7 @@ const LoginForm = () => {
 				body: JSON.stringify({
 					username: username,
 					password: password,
+					expiry: rememberMe ? "1d" : "10m",
 				}),
 			})
 		).json();
@@ -112,14 +110,7 @@ const LoginForm = () => {
 		const user = data.user;
 		const token = data.token;
 
-		if (rememberMe && token) {
-			localStorage.setItem("token", token);
-		}
-
-		if (!rememberMe && token) {
-			sessionStorage.setItem("token", token);
-		}
-
+		localStorage.setItem("token", token);
 		dispatch(setUser(user));
 		router.push("/");
 	};
