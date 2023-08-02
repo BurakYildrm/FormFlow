@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const Login = () => {
 	return (
 		<>
-			<div className="flex flex-col items-center justify-center min-h-screen">
+			<div className="flex flex-col items-center justify-center min-h-screen bg-base-100">
 				<div className="container max-w-screen-sm mx-auto px-2">
 					<LoginForm />
 				</div>
