@@ -3,6 +3,9 @@
 import React from "react";
 import { useEffect } from "react";
 import Link from "next/link";
+import { Bungee } from "next/font/google";
+
+const bungee = Bungee({ subsets: ["latin"], weight: ["400"] });
 
 const Navbar: React.FC = () => {
 	const initialTheme =
@@ -30,7 +33,7 @@ const Navbar: React.FC = () => {
 				<div className="flex-1">
 					<Link
 						href="/"
-						className="btn btn-ghost normal-case text-xl hover:bg-transparent"
+						className={`btn btn-ghost normal-case text-xl hover:bg-transparent ${bungee.className}`}
 					>
 						FormFlow
 					</Link>
