@@ -12,6 +12,8 @@ import {
 	useMessages,
 } from "next-intl";
 import pick from "lodash/pick";
+import { cookies } from "next/headers";
+import { getCookie } from "cookies-next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,13 +35,23 @@ export default function RootLayout({
 	}
 
 	const messages = useMessages();
+	const cookieStore = cookies();
+	const theme = cookieStore.has("theme")
+		? (cookieStore.get("theme")?.value as string)
+		: "dark";
+
+	if (!cookieStore.has("theme")) {
+		cookieStore.set("theme", theme);
+	}
+
+	//console.log("layout", theme);
 
 	return (
 		<AppProvider>
-			<html lang={params.locale} data-theme="dark">
-				<body className={inter.className}>
-					<Navbar />
-					{children}
+			<html lang={params.locale} data-theme={theme}>
+				<body className={`${inter.className} flex flex-col h-screen`}>
+					<Navbar locale={params.locale} />
+					<div className="flex-1 flex">{children}</div>
 					<Footer />
 				</body>
 			</html>
