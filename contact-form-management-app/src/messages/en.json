@@ -1,5 +1,23 @@
 {
 	"Footer": {
 		"copyright": "\u00A9 2023 FormFlow Ltd. All right reserved."
+	},
+
+	"ContactForm": {
+		"heading": "Contact Us",
+		"subHeading": "Send your message and we will get back to you as soon as possible.",
+		"name": "Name and Surname",
+		"namePlaceholder": "Enter your name and surname",
+		"gender": "Gender",
+		"genderPlaceholder": "Select gender",
+		"male": "Male",
+		"female": "Female",
+		"other": "Other",
+		"na": "Don't want to specify",
+		"country": "Country",
+		"countryPlaceholder": "Select country",
+		"message": "Your Message",
+		"messagePlaceholder": "Enter your message",
+		"submit": "Submit"
 	}
 }

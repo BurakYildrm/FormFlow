@@ -1,5 +1,23 @@
 {
 	"Footer": {
 		"copyright": "\u00A9 2023 FormFlow Ltd. Tüm hakları saklıdır."
+	},
+
+	"ContactForm": {
+		"heading": "Bize Ulaşın",
+		"subHeading": "Mesajınızı gönderin ve en kısa sürede size geri döneceğiz.",
+		"name": "Adınız ve Soyadınız",
+		"namePlaceholder": "Adınız ve soyadınızı girin",
+		"gender": "Cinsiyet",
+		"genderPlaceholder": "Cinsiyet seçin",
+		"male": "Erkek",
+		"female": "Kadın",
+		"other": "Diğer",
+		"na": "Belirtmek istemiyorum",
+		"country": "Ülke",
+		"countryPlaceholder": "Ülke seçin",
+		"message": "Mesajınız",
+		"messagePlaceholder": "Mesajınızı girin",
+		"submit": "Gönder"
 	}
 }
