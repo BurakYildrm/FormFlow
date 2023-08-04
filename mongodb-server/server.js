@@ -57,7 +57,8 @@ async function initiateDatabase() {
 			Country.insertMany(
 				countries.map((country) => {
 					return {
-						name: country,
+						en: country.en,
+						tr: country.tr,
 					};
 				})
 			);
@@ -241,7 +242,11 @@ app.post("/api/user/logout", express.json(), async (req, res) => {
 app.get("/api/countries", async (req, res) => {
 	const countries = await Country.find({});
 	res.status(200).send({
-		data: { countries: countries.map((country) => country.name) },
+		data: {
+			countries: countries.map((country) => {
+				return { en: country.en, tr: country.tr };
+			}),
+		},
 	});
 });
 
