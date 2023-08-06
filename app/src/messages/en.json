@@ -39,5 +39,12 @@
 
 	"Metadata": {
 		"login": "Login"
+	},
+
+	"NotFound": {
+		"heading": "404",
+		"subHeading": "Page not found",
+		"message": "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+		"button": "Go to home page"
 	}
 }

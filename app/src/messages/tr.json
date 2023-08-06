@@ -39,5 +39,12 @@
 
 	"Metadata": {
 		"login": "Giriş"
+	},
+
+	"NotFound": {
+		"heading": "404",
+		"subHeading": "Aradığınız sayfa bulunamadı.",
+		"message": "Aradığınız sayfa kaldırılmış olabilir, adı değiştirilmiş olabilir veya geçici olarak kullanılamıyor olabilir.",
+		"button": "Anasayfaya Dön"
 	}
 }
