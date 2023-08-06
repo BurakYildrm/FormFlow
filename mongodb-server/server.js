@@ -116,7 +116,7 @@ async function checkTokenAndRole(req, res, roleList = null) {
 	}
 
 	try {
-		const jwtTokenPayload = jwt.verify(token, JWT_SECRET_KEY);
+		const jwtTokenPayload = jwt.verify(token, process.env.JWT_SECRET_KEY);
 		const blacklisted = BlacklistedToken.findOne({ token: token });
 
 		if (blacklisted) {
@@ -194,7 +194,7 @@ app.post("/api/user/check-login", express.json(), async (req, res) => {
 	}
 
 	try {
-		const jwtTokenPayload = jwt.verify(token, JWT_SECRET_KEY);
+		const jwtTokenPayload = jwt.verify(token, process.env.JWT_SECRET_KEY);
 		const isBlacklisted = (await BlacklistedToken.findOne({ token: token }))
 			? true
 			: false;
