@@ -3,7 +3,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navbar, Footer } from "@/components";
-import localeConfig from "@/locale.config";
 import { notFound } from "next/navigation";
 import {
 	AbstractIntlMessages,
@@ -13,7 +12,6 @@ import {
 } from "next-intl";
 import pick from "lodash/pick";
 import { cookies } from "next/headers";
-import { getCookie } from "cookies-next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,23 +26,27 @@ export default function RootLayout({
 	children: React.ReactNode;
 	params: { locale: string };
 }) {
+	const cookieStore = cookies();
 	const locale = useLocale();
+	const messages = useMessages();
+
+	async function setTheme(theme: string) {
+		"use server";
+
+		cookieStore.set("theme", theme);
+	}
 
 	if (params.locale !== locale) {
 		notFound();
 	}
 
-	const messages = useMessages();
-	const cookieStore = cookies();
 	const theme = cookieStore.has("theme")
 		? (cookieStore.get("theme")?.value as string)
 		: "dark";
 
 	if (!cookieStore.has("theme")) {
-		cookieStore.set("theme", theme);
+		setTheme(theme);
 	}
-
-	//console.log("layout", theme);
 
 	return (
 		<AppProvider>
