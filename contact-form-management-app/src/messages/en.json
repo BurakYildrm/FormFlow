@@ -12,12 +12,32 @@
 		"genderPlaceholder": "Select gender",
 		"male": "Male",
 		"female": "Female",
-		"other": "Other",
-		"na": "Don't want to specify",
 		"country": "Country",
 		"countryPlaceholder": "Select country",
+		"countryNotFound": "Nothing found",
 		"message": "Your Message",
 		"messagePlaceholder": "Enter your message",
-		"submit": "Submit"
+		"submit": "Submit",
+		"success": "Your message has been sent successfully.",
+		"error": "An error occurred while sending your message.",
+		"emptyNameError": "Name and surname is required.",
+		"emptyGenderError": "Gender is required.",
+		"emptyCountryError": "Country is required.",
+		"emptyMessageError": "Message is required.",
+		"invalidNameError": "Name and surname must be at most 50 characters long.",
+		"invalidMessageError": "Message must be at most 500 characters long."
+	},
+
+	"LoginForm": {
+		"username": "Username",
+		"usernamePlaceholder": "Enter your username",
+		"password": "Password",
+		"passwordPlaceholder": "Enter your password",
+		"rememberMe": "Remember me",
+		"submit": "Login"
+	},
+
+	"Metadata": {
+		"login": "Login"
 	}
 }

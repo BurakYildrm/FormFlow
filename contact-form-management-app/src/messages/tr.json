@@ -7,17 +7,37 @@
 		"heading": "Bize Ulaşın",
 		"subHeading": "Mesajınızı gönderin ve en kısa sürede size geri döneceğiz.",
 		"name": "Adınız ve Soyadınız",
-		"namePlaceholder": "Adınız ve soyadınızı girin",
+		"namePlaceholder": "Adınız ve soyadınızı giriniz",
 		"gender": "Cinsiyet",
-		"genderPlaceholder": "Cinsiyet seçin",
+		"genderPlaceholder": "Cinsiyet seçiniz",
 		"male": "Erkek",
 		"female": "Kadın",
-		"other": "Diğer",
-		"na": "Belirtmek istemiyorum",
 		"country": "Ülke",
-		"countryPlaceholder": "Ülke seçin",
+		"countryPlaceholder": "Ülke seçiniz",
+		"countryNotFound": "Sonuç bulunamadı",
 		"message": "Mesajınız",
-		"messagePlaceholder": "Mesajınızı girin",
-		"submit": "Gönder"
+		"messagePlaceholder": "Mesajınızı giriniz",
+		"submit": "Gönder",
+		"success": "Mesajınız başarıyla gönderildi.",
+		"error": "Mesajınız gönderilirken bir hata oluştu.",
+		"emptyNameError": "Lütfen adınızı ve soyadınızı giriniz.",
+		"emptyGenderError": "Lütfen cinsiyetinizi seçiniz.",
+		"emptyCountryError": "Lütfen ülkenizi seçiniz.",
+		"emptyMessageError": "Lütfen mesajınızı giriniz.",
+		"invalidNameError": "Adınız ve soyadınız en fazla 50 karakter uzunluğunda olmalıdır.",
+		"invalidMessageError": "Mesajınız en fazla 500 karakter uzunluğunda olmalıdır."
+	},
+
+	"LoginForm": {
+		"username": "Kullanıcı Adı",
+		"usernamePlaceholder": "Kullanıcı adınızı girin",
+		"password": "Şifre",
+		"passwordPlaceholder": "Şifrenizi girin",
+		"rememberMe": "Beni Hatırla",
+		"submit": "Giriş Yap"
+	},
+
+	"Metadata": {
+		"login": "Giriş"
 	}
 }
