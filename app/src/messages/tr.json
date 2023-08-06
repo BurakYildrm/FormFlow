@@ -38,13 +38,22 @@
 	},
 
 	"Metadata": {
-		"login": "Giriş"
+		"login": "Giriş",
+		"notFound": "Sayfa Bulunamadı",
+		"notAuthorized": "Yetkisiz Erişim"
 	},
 
 	"NotFound": {
 		"heading": "404",
 		"subHeading": "Aradığınız sayfa bulunamadı.",
 		"message": "Aradığınız sayfa kaldırılmış olabilir, adı değiştirilmiş olabilir veya geçici olarak kullanılamıyor olabilir.",
+		"button": "Anasayfaya Dön"
+	},
+
+	"NotAuthorized": {
+		"heading": "401",
+		"subHeading": "Yetkisiz Erişim",
+		"message": "Bu sayfayı görüntülemek için yetkiniz bulunmuyor.",
 		"button": "Anasayfaya Dön"
 	}
 }

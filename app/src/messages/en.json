@@ -38,13 +38,22 @@
 	},
 
 	"Metadata": {
-		"login": "Login"
+		"login": "Login",
+		"notFound": "Not Found",
+		"notAuthorized": "Not Authorized"
 	},
 
 	"NotFound": {
 		"heading": "404",
 		"subHeading": "Page not found",
 		"message": "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+		"button": "Go to home page"
+	},
+
+	"NotAuthorized": {
+		"heading": "401",
+		"subHeading": "Not Authorized",
+		"message": "You are not authorized to access this page.",
 		"button": "Go to home page"
 	}
 }
