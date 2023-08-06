@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { Alert, LocalizedCombobox, Select } from ".";
 
 interface Country {
 	en: string;
@@ -15,9 +16,17 @@ interface CountriesResponse {
 }
 
 const ContactForm: React.FC = () => {
-	const t = useTranslations("ContactForm");
-	const [countries, setCountries] = useState<Array<Country>>([]);
 	const locale = useLocale();
+	const t = useTranslations("ContactForm");
+	const [name, setName] = useState<string>("");
+	const [gender, setGender] = useState<string>("gender");
+	const [country, setCountry] = useState<string>("country");
+	const [countries, setCountries] = useState<Array<Country>>([]);
+	const [message, setMessage] = useState<string>("");
+	const [alert, setAlert] = useState<boolean>(false);
+	const [alertType, setAlertType] = useState<string>("");
+	const [genderKey, setGenderKey] = useState<number>(0);
+	const [countryKey, setCountryKey] = useState<number>(0);
 
 	useEffect(() => {
 		fetch("/api/countries", {
@@ -37,17 +46,95 @@ const ContactForm: React.FC = () => {
 		});
 	}, []);
 
+	const retrieveCountry = (country: string) => {
+		setCountry(country);
+		document.getElementById("country")?.classList.remove("empty");
+	};
+
+	const retrieveGender = (gender: string) => {
+		setGender(gender);
+		document.getElementById("gender")?.classList.remove("empty");
+	};
+
+	const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		let check = 0;
+
+		if (!name) {
+			document.getElementById("name")?.classList.add("empty", "error");
+			check++;
+		}
+
+		if (!gender) {
+			document.getElementById("gender")?.classList.add("empty");
+			document.getElementById("select-button")?.classList.add("error");
+			check++;
+		}
+
+		if (!country) {
+			document.getElementById("country")?.classList.add("empty");
+			document.getElementById("combobox-input")?.classList.add("error");
+			check++;
+		}
+
+		if (!message) {
+			document.getElementById("message")?.classList.add("empty", "error");
+			check++;
+		}
+
+		if (name.length > 50) {
+			document.getElementById("name")?.classList.add("invalid", "error");
+			check++;
+		}
+
+		if (message.length > 500) {
+			document
+				.getElementById("message")
+				?.classList.add("invalid", "error");
+			check++;
+		}
+
+		if (check > 0) {
+			return;
+		}
+
+		try {
+			await fetch("/api/message/add", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: name,
+					gender: gender,
+					country: country,
+					message: message,
+				}),
+			});
+
+			setAlertType("success");
+		} catch (err) {
+			setAlertType("error");
+		}
+
+		setAlert(true);
+		setName("");
+		setMessage("");
+		setCountryKey((prevState) => prevState + 1);
+		setGenderKey((prevState) => prevState + 1);
+	};
+
 	return (
 		<>
 			<section className="bg-base-100">
-				<div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+				<div className="py-6 px-4 mx-auto max-w-2xl lg:py-16">
 					<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
 						{t("heading")}
 					</h2>
 					<p className="mb-4 text-sm text-gray-900 dark:text-white">
 						{t("subHeading")}
 					</p>
-					<form action="#">
+					<form onSubmit={sendMessage} noValidate>
 						<div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
 							<div className="sm:col-span-2">
 								<label
@@ -58,12 +145,25 @@ const ContactForm: React.FC = () => {
 								</label>
 								<input
 									type="text"
-									name="name"
 									id="name"
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+									value={name}
+									onChange={(e) => {
+										setName(e.target.value);
+										e.target.classList.remove(
+											"empty",
+											"error"
+										);
+									}}
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent dark:focus:border-accent peer/name [&.error]:text-error [&.error]:border-error [&.error]:focus:border-error [&.error]:focus:ring-error"
 									placeholder={t("namePlaceholder")}
-									required
+									autoComplete="off"
 								/>
+								<div className="peer-[.empty]/name:block hidden text-sm text-error mt-1">
+									{t("emptyNameError")}
+								</div>
+								<div className="peer-[.invalid]/name:block hidden text-sm text-error mt-1">
+									{t("invalidNameError")}
+								</div>
 							</div>
 							<div>
 								<label
@@ -72,21 +172,21 @@ const ContactForm: React.FC = () => {
 								>
 									{t("gender")}
 								</label>
-								<select
+								<div
 									id="gender"
-									defaultValue={"gender"}
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 select focus:outline-0"
+									className="peer/gender"
+									key={genderKey}
 								>
-									<option value="gender" disabled>
-										{t("genderPlaceholder")}
-									</option>
-									<option value="male">{t("male")}</option>
-									<option value="female">
-										{t("female")}
-									</option>
-									<option value="other">{t("other")}</option>
-									<option value="na">{t("na")}</option>
-								</select>
+									<Select
+										data={["", t("male"), t("female")]}
+										retrieveData={retrieveGender}
+										placeholder={t("genderPlaceholder")}
+										showPlaceholder={true}
+									/>
+								</div>
+								<div className="peer-[.empty]/gender:block hidden text-sm text-error mt-1">
+									{t("emptyGenderError")}
+								</div>
 							</div>
 							<div>
 								<label
@@ -95,20 +195,21 @@ const ContactForm: React.FC = () => {
 								>
 									{t("country")}
 								</label>
-								<select
+								<div
 									id="country"
-									defaultValue={"country"}
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 select focus:outline-0"
+									className="peer/country"
+									key={countryKey}
 								>
-									<option value="country" disabled>
-										{t("countryPlaceholder")}
-									</option>
-									{countries.map((country, index) => (
-										<option key={index} value={country.en}>
-											{country[locale as keyof Country]}
-										</option>
-									))}
-								</select>
+									<LocalizedCombobox
+										data={countries}
+										noDataText={t("countryNotFound")}
+										placeholder={t("countryPlaceholder")}
+										retrieveData={retrieveCountry}
+									/>
+								</div>
+								<div className="peer-[.empty]/country:block hidden text-sm text-error mt-1">
+									{t("emptyCountryError")}
+								</div>
 							</div>
 							<div className="sm:col-span-2">
 								<label
@@ -119,20 +220,48 @@ const ContactForm: React.FC = () => {
 								</label>
 								<textarea
 									id="message"
+									value={message}
+									onChange={(e) => {
+										setMessage(e.target.value);
+										e.target.classList.remove(
+											"empty",
+											"error"
+										);
+									}}
 									rows={8}
-									className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+									className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary border border-gray-300 focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent dark:focus:border-accent peer/message [&.error]:text-error [&.error]:border-error [&.error]:focus:border-error [&.error]:focus:ring-error"
 									placeholder={t("messagePlaceholder")}
 									style={{ resize: "none" }}
 								></textarea>
+								<div className="peer-[.empty]/message:block hidden text-sm text-error mt-1">
+									{t("emptyMessageError")}
+								</div>
+								<div className="peer-[.invalid]/message:block hidden text-sm text-error mt-1">
+									{t("invalidMessageError")}
+								</div>
 							</div>
 						</div>
 						<button
 							type="submit"
-							className="btn btn-accent text-sm px-5 py-2.5 mt-4 sm:mt-6"
+							className="btn btn-primary dark:btn-accent text-sm px-5 py-2.5 mt-4 sm:mt-6 sm:w-auto w-full"
 						>
 							{t("submit")}
 						</button>
 					</form>
+					{alert && (
+						<div
+							style={{
+								animation: "fadeOut 3s ease-in-out forwards",
+							}}
+							onAnimationEnd={(e) => {
+								e.currentTarget.classList.add("hidden");
+								setAlert(false);
+							}}
+							className="w-full sm:w-fit mx-auto mt-4 sm:mt-6"
+						>
+							<Alert type={alertType} message={t(alertType)} />
+						</div>
+					)}
 				</div>
 			</section>
 		</>
@@ -140,7 +269,3 @@ const ContactForm: React.FC = () => {
 };
 
 export default ContactForm;
-
-/*
-className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-*/
