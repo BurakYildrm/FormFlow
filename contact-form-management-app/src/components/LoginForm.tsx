@@ -4,6 +4,7 @@ import React, { FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store";
 import { setUser, User } from "@/store/userSlice";
+import { useTranslations } from "next-intl";
 export interface LoginResponse {
 	data: {
 		token: string;
@@ -31,6 +32,7 @@ const LoginForm: React.FC = () => {
 	const [error, setError] = React.useState<string>("");
 	const usernameInput = React.useRef<HTMLInputElement>(null);
 	const passwordInput = React.useRef<HTMLInputElement>(null);
+	const t = useTranslations("LoginForm");
 
 	useEffect(() => {
 		const checkLogin = async (token: string) => {
@@ -40,7 +42,7 @@ const LoginForm: React.FC = () => {
 			}
 
 			const response: CheckLoginResponse | LoginError = await (
-				await fetch("/api/check-login", {
+				await fetch("/api/user/check-login", {
 					cache: "no-cache",
 					method: "POST",
 					headers: {
@@ -55,8 +57,8 @@ const LoginForm: React.FC = () => {
 				setUsername("");
 				setPassword("");
 				setLoading(false);
-				alert(response.error);
-				fetch("/api/logout", {
+				//alert(response.error);
+				fetch("/api/user/logout", {
 					cache: "no-cache",
 					method: "POST",
 					headers: {
@@ -81,7 +83,7 @@ const LoginForm: React.FC = () => {
 		passwordInput.current?.classList.remove("invalid");
 
 		const response: LoginResponse | LoginError = await (
-			await fetch("/api/login", {
+			await fetch("/api/user/login", {
 				cache: "no-cache",
 				method: "POST",
 				body: JSON.stringify({
@@ -115,18 +117,18 @@ const LoginForm: React.FC = () => {
 
 	return (
 		<>
-			{false && (
+			{loading && (
 				<span className="loading loading-infinity loading-lg"></span>
 			)}
-			{!false && (
-				<div className="bg-base-200 p-10 rounded">
+			{!loading && (
+				<div className="bg-base-100 p-10 rounded">
 					<form className="flex flex-col" onSubmit={login} noValidate>
 						<div className="mb-6">
 							<label
 								htmlFor="username"
 								className="mb-2 text-sm font-medium text-gray-900 dark:text-white"
 							>
-								Username
+								{t("username")}
 							</label>
 							<input
 								type="text"
@@ -138,7 +140,7 @@ const LoginForm: React.FC = () => {
 									e.target.classList.remove("invalid");
 								}}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 [&.invalid]:text-red-600 [&.invalid]:border-red-500 [&.invalid]:focus:border-red-500 [&.invalid]:focus:ring-red-500 peer/username"
-								placeholder="username"
+								placeholder={t("usernamePlaceholder")}
 								autoComplete="off"
 								ref={usernameInput}
 								required
@@ -152,7 +154,7 @@ const LoginForm: React.FC = () => {
 								htmlFor="password"
 								className="mb-2 text-sm font-medium text-gray-900 dark:text-white"
 							>
-								Password
+								{t("password")}
 							</label>
 							<input
 								type="password"
@@ -165,7 +167,7 @@ const LoginForm: React.FC = () => {
 									e.target.classList.remove("invalid");
 								}}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 [&.invalid]:text-red-600 [&.invalid]:border-red-500 [&.invalid]:focus:border-red-500 [&.invalid]:focus:ring-red-500 peer/password"
-								placeholder="password"
+								placeholder={t("passwordPlaceholder")}
 								required
 							/>
 							<div className="peer-[.invalid]/password:block hidden text-sm text-red-600">
@@ -189,14 +191,14 @@ const LoginForm: React.FC = () => {
 								htmlFor="remember"
 								className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
 							>
-								Remember me
+								{t("rememberMe")}
 							</label>
 						</div>
 						<button
 							type="submit"
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 						>
-							Submit
+							{t("submit")}
 						</button>
 					</form>
 				</div>
