@@ -17,24 +17,22 @@ const bungee = Bungee({ subsets: ["latin"], weight: ["400"] });
 
 const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
 	const [theme, setTheme] = useState<string>(
-		/*typeof window !== "undefined"
-			? localStorage.getItem("theme") ?? "dark"
-			: "dark"*/
 		(getCookie("theme") ?? "dark") as string
 	);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	const checked = theme === "dark";
 	const pathname = usePathname();
 
-	//console.log("navbar", theme);
-
 	useEffect(() => {
 		setCookie("theme", theme);
-		//localStorage.setItem("theme", theme);
-		//const localTheme = localStorage.getItem("theme") as string;
 		const localTheme = getCookie("theme") as string;
 		document.documentElement.setAttribute("data-theme", localTheme);
 	}, [theme]);
+
+	useEffect(() => {
+		setLoading(false);
+	}, []);
 
 	const changeTheme = (e: ChangeEvent<HTMLInputElement>) => {
 		const target = e.target as HTMLInputElement;
@@ -100,7 +98,18 @@ const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
 							</div>
 						</li>
 						<li>
-							<label className="swap swap-rotate mx-4 hover:bg-transparent">
+							<div
+								className={`${
+									loading
+										? "w-12 h-12 inline-block mx-6"
+										: "hidden"
+								}`}
+							></div>
+							<label
+								className={`swap swap-rotate mx-4 hover:bg-transparent ${
+									loading ? "hidden" : ""
+								}`}
+							>
 								<input
 									type="checkbox"
 									onChange={changeTheme}
