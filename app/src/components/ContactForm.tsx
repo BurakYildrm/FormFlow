@@ -3,6 +3,10 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Alert, LocalizedCombobox, Select } from ".";
+import { useAppDispatch } from "@/store";
+import { setUser } from "@/store";
+import { CheckLoginResponse } from "@/types";
+import { addMessage } from "@/services";
 
 interface Country {
 	en: string;
@@ -27,6 +31,7 @@ const ContactForm: React.FC = () => {
 	const [alertType, setAlertType] = useState<string>("");
 	const [genderKey, setGenderKey] = useState<number>(0);
 	const [countryKey, setCountryKey] = useState<number>(0);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		fetch("/api/countries", {
@@ -43,6 +48,43 @@ const ContactForm: React.FC = () => {
 					)
 				)
 			);
+		});
+
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			dispatch(setUser(null));
+			return;
+		}
+
+		fetch("/api/user/check-login", {
+			cache: "no-cache",
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				token: token,
+			},
+		}).then(async (response) => {
+			const status: number = response.status;
+
+			if (status == 401) {
+				dispatch(setUser(null));
+				fetch("/api/user/logout", {
+					cache: "no-cache",
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						token: token,
+					},
+				});
+
+				localStorage.removeItem("token");
+				return;
+			}
+
+			const responseBody: CheckLoginResponse = await response.json();
+			const user = responseBody.data.user;
+			dispatch(setUser(user));
 		});
 	}, []);
 
@@ -98,25 +140,8 @@ const ContactForm: React.FC = () => {
 			return;
 		}
 
-		try {
-			await fetch("/api/message/add", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: name,
-					gender: gender,
-					country: country,
-					message: message,
-				}),
-			});
-
-			setAlertType("success");
-		} catch (err) {
-			setAlertType("error");
-		}
-
+		await addMessage(name, message, gender, country);
+		setAlertType("success");
 		setAlert(true);
 		setName("");
 		setMessage("");
@@ -126,7 +151,7 @@ const ContactForm: React.FC = () => {
 
 	return (
 		<>
-			<section className="bg-base-100">
+			<div className="bg-base-100 w-full">
 				<div className="py-6 px-4 mx-auto max-w-2xl lg:py-16">
 					<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
 						{t("heading")}
@@ -228,7 +253,7 @@ const ContactForm: React.FC = () => {
 											"error"
 										);
 									}}
-									rows={8}
+									rows={6}
 									className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary border border-gray-300 focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-accent dark:focus:border-accent peer/message [&.error]:text-error [&.error]:border-error [&.error]:focus:border-error [&.error]:focus:ring-error"
 									placeholder={t("messagePlaceholder")}
 									style={{ resize: "none" }}
@@ -263,7 +288,7 @@ const ContactForm: React.FC = () => {
 						</div>
 					)}
 				</div>
-			</section>
+			</div>
 		</>
 	);
 };

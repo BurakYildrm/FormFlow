@@ -46,7 +46,8 @@
 		"notAuthorized": "Not Authorized",
 		"messages": "Messages",
 		"message": "Message ID: {id}",
-		"users": "Users"
+		"users": "Users",
+		"user": "User ID: {id}"
 	},
 
 	"NotFound": {
@@ -107,5 +108,21 @@
 		"password": "Password",
 		"role": "Role",
 		"noData": "No users found"
+	},
+
+	"UserDetail": {
+		"heading": "User ID: {id}",
+		"username": "Username",
+		"password": "Password",
+		"role": "Role",
+		"photo": "Photo",
+		"update": "Update"
+	},
+
+	"UserNotFound": {
+		"heading": "404",
+		"subHeading": "User Not Found",
+		"message": "The message with the specified ID does not exist.",
+		"button": "Go to users"
 	}
 }

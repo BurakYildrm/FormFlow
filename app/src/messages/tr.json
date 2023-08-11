@@ -46,7 +46,8 @@
 		"notAuthorized": "Yetkisiz Erişim",
 		"messages": "Mesajlar",
 		"message": "Mesaj No: {id}",
-		"users": "Kullanıcılar"
+		"users": "Kullanıcılar",
+		"user": "Kullanıcı No: {id}"
 	},
 
 	"NotFound": {
@@ -107,5 +108,21 @@
 		"password": "Şifre",
 		"role": "Rol",
 		"noData": "Sonuç bulunamadı"
+	},
+
+	"UserDetail": {
+		"heading": "Kullanıcı No: {id}",
+		"username": "Kullanıcı Adı",
+		"password": "Şifre",
+		"role": "Rol",
+		"photo": "Fotoğraf",
+		"update": "Güncelle"
+	},
+
+	"UserNotFound": {
+		"heading": "404",
+		"subHeading": "Kullanıcı Bulunamadı.",
+		"message": "Belirtilen numara ile kullanıcı bulunmuyor.",
+		"button": "Kullanıcılar Sayfasına Dön"
 	}
 }

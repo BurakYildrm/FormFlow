@@ -7,24 +7,24 @@ import {
 } from "next-intl";
 import pick from "lodash/pick";
 import { getTranslator } from "next-intl/server";
-import { MessageDetail } from "@/components";
+import { UserDetail } from "@/components";
 
-interface MessageProps {
+interface UserProps {
 	params: {
 		id: string;
 	};
 }
 
-export async function generateMetadata({ params: { id } }: MessageProps) {
+export async function generateMetadata({ params: { id } }: UserProps) {
 	const locale = useLocale();
 	const t = await getTranslator(locale, "Metadata");
 
 	return {
-		title: t("message", { id }),
+		title: t("user", { id }),
 	};
 }
 
-const Message: React.FC<MessageProps> = ({ params: { id } }) => {
+const User: React.FC<UserProps> = ({ params: { id } }) => {
 	const locale = useLocale();
 	const messages = useMessages();
 
@@ -35,15 +35,15 @@ const Message: React.FC<MessageProps> = ({ params: { id } }) => {
 				messages={
 					pick(
 						messages,
-						"MessageDetail",
-						"MessageNotFound"
+						"UserDetail",
+						"UserNotFound"
 					) as AbstractIntlMessages
 				}
 			>
-				<MessageDetail id={id} />
+				<UserDetail id={id} />
 			</NextIntlClientProvider>
 		</div>
 	);
 };
 
-export default Message;
+export default User;

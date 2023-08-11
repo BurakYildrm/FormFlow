@@ -65,6 +65,12 @@ export interface UsersResponse {
 	};
 }
 
+export interface UserResponse {
+	data: {
+		user: User;
+	};
+}
+
 export const ErrorMessages = {
 	notAuthenticated: "User is not authenticated",
 	noUsername: "Username is required",

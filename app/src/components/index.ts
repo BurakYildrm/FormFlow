@@ -10,6 +10,8 @@ import UsersList from "./UsersList";
 import MessagesList from "./MessagesList";
 import MessageDetail from "./MessageDetail";
 import MessageNotFound from "./MessageNotFound";
+import UserDetail from "./UserDetail";
+import UserNotFound from "./UserNotFound";
 
 export {
 	Footer,
@@ -24,4 +26,6 @@ export {
 	MessagesList,
 	MessageDetail,
 	MessageNotFound,
+	UserDetail,
+	UserNotFound,
 };

@@ -5,6 +5,7 @@ import {
 	ErrorResponse,
 	LoginResponse,
 	LogoutResponse,
+	UserResponse,
 	UsersResponse,
 } from "@/types";
 
@@ -102,4 +103,67 @@ const getUsers = async (token: string) => {
 	};
 };
 
-export { login, checkLogin, logout, getUsers };
+const getUserById = async (token: string, id: string) => {
+	const response: Response = await fetch(
+		"http://localhost:3000/api/user/" + id,
+		{
+			cache: "no-cache",
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				token: token,
+			},
+		}
+	);
+
+	const status = response.status;
+	const body: UserResponse | ErrorResponse = await response.json();
+	const data =
+		status === 200
+			? (body as UserResponse).data
+			: (body as ErrorResponse).error;
+
+	return {
+		status: status,
+		data: data,
+	};
+};
+
+const updateUserById = async (
+	token: string,
+	id: string,
+	username: string,
+	password: string,
+	photo: string
+) => {
+	const response: Response = await fetch(
+		"http://localhost:3000/api/user/update/" + id,
+		{
+			cache: "no-cache",
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				token: token,
+			},
+			body: JSON.stringify({
+				username: username,
+				password: password,
+				base64Photo: photo,
+			}),
+		}
+	);
+
+	const status = response.status;
+	const body: UserResponse | ErrorResponse = await response.json();
+	const data =
+		status === 200
+			? (body as UserResponse).data
+			: (body as ErrorResponse).error;
+
+	return {
+		status: status,
+		data: data,
+	};
+};
+
+export { login, checkLogin, logout, getUsers, getUserById, updateUserById };
