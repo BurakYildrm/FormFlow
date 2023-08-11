@@ -5,6 +5,7 @@ module.exports = {
 		"./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
 		"./src/components/**/*.{js,ts,jsx,tsx,mdx}",
 		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+		"./node_modules/flowbite-react/**/*.js",
 	],
 	theme: {
 		extend: {
@@ -16,10 +17,10 @@ module.exports = {
 		},
 		container: {
 			center: true,
-			padding: "2rem",
+			padding: "1.5rem",
 		},
 	},
-	plugins: [require("daisyui")],
+	plugins: [require("daisyui"), require("flowbite/plugin")],
 	daisyui: {
 		themes: ["light", "dark"],
 	},
