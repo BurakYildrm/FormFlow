@@ -1,8 +1,9 @@
 import Link from "next-intl/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function NotFound() {
 	const t = useTranslations("NotFound");
+	const locale = useLocale();
 
 	return (
 		<div className="flex-1 flex flex-col items-center justify-center">
@@ -11,7 +12,7 @@ export default function NotFound() {
 					<h1 className="text-2xl">{t("heading")}</h1>
 					<h2 className="text-xl">{t("subHeading")}</h2>
 					<p className="text-center">{t("message")}</p>
-					<Link className="btn btn-warning" href="/">
+					<Link className="btn btn-warning" href="/" locale={locale}>
 						{t("button")}
 					</Link>
 				</div>
