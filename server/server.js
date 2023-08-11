@@ -65,22 +65,33 @@ async function initiateDatabase() {
 		}
 
 		if (!collections.some((collection) => collection.name === "users")) {
-			const img = await readFileAsync("data/admin.png", "base64");
+			const adminImg = await readFileAsync("data/admin.png", "base64");
 			const admin = new User({
 				id: 1,
 				username: "admin",
 				password: "admin123",
 				role: "admin",
-				base64Photo: img,
+				base64Photo: IMG_PREFIX + adminImg,
 			});
 
 			await admin.save();
+
+			const readerImg = await readFileAsync("data/reader.png", "base64");
+			const reader = new User({
+				id: 2,
+				username: "reader1",
+				password: "reader1pass",
+				role: "reader",
+				base64Photo: IMG_PREFIX + readerImg,
+			});
+
+			await reader.save();
 		}
 
 		if (!(await Counter.findOne({ _id: "userCounter" }))) {
 			const userCounter = new Counter({
 				_id: "userCounter",
-				count: 1,
+				count: 2,
 			});
 
 			await userCounter.save();
@@ -117,7 +128,7 @@ async function checkTokenAndRole(req, res, roleList = null) {
 
 	try {
 		const jwtTokenPayload = jwt.verify(token, process.env.JWT_SECRET_KEY);
-		const blacklisted = BlacklistedToken.findOne({ token: token });
+		const blacklisted = await BlacklistedToken.findOne({ token: token });
 
 		if (blacklisted) {
 			res.status(401).send({ error: "User is not authenticated" });
@@ -204,7 +215,10 @@ app.post("/api/user/check-login", express.json(), async (req, res) => {
 			return;
 		}
 
-		const user = await User.findOne({ id: jwtTokenPayload.userId });
+		const user = await User.findOne(
+			{ id: jwtTokenPayload.userId },
+			{ __id: 0, __v: 0 }
+		);
 
 		if (!user) {
 			res.status(401).send({ error: "User does not exist" });
@@ -226,7 +240,7 @@ app.post("/api/user/logout", express.json(), async (req, res) => {
 		return;
 	}
 
-	const blacklisted = BlacklistedToken.findOne({ token: token });
+	const blacklisted = await BlacklistedToken.findOne({ token: token });
 
 	if (!blacklisted) {
 		const blacklistedToken = new BlacklistedToken({
@@ -328,7 +342,7 @@ app.post("/api/message/read/:id", express.json(), async (req, res) => {
 	}
 
 	const { id } = req.params;
-	const message = await Message.findOne({ id: id }, { _id: 0, __v: 0 });
+	const message = await Message.findOne({ id: id });
 
 	if (!message) {
 		res.status(404).send({ error: "Message not found" });
@@ -382,7 +396,7 @@ app.post("/api/user/add-reader", express.json(), async (req, res) => {
 		return;
 	}
 
-	const user = User.findOne({ username: username });
+	const user = await User.findOne({ username: username });
 
 	if (user) {
 		res.status(400).send({ error: "Username already exists" });
