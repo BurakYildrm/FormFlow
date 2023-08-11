@@ -12,15 +12,13 @@ export default function Home() {
 	const messages = useMessages();
 
 	return (
-		<main className="flex-1">
+		<div className="flex-1 flex flex-col justify-center items-center">
 			<NextIntlClientProvider
 				locale={locale}
 				messages={pick(messages, "ContactForm") as AbstractIntlMessages}
 			>
 				<ContactForm />
 			</NextIntlClientProvider>
-		</main>
+		</div>
 	);
 }
-
-//flex-col items-center justify-between h-full

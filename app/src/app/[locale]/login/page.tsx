@@ -18,14 +18,14 @@ export async function generateMetadata() {
 	};
 }
 
-const Login = () => {
+const Login: React.FC = () => {
 	const messages = useMessages();
 	const locale = useLocale();
 
 	return (
 		<>
 			<div className="flex-1 flex flex-col items-center justify-center bg-base-100">
-				<div className="container max-w-screen-sm mx-auto px-2 flex justify-center items-center">
+				<div className="container max-w-screen-sm mx-auto px-4 flex flex-col justify-center items-center">
 					<NextIntlClientProvider
 						locale={locale}
 						messages={
