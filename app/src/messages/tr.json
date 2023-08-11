@@ -34,13 +34,19 @@
 		"password": "Şifre",
 		"passwordPlaceholder": "Şifrenizi girin",
 		"rememberMe": "Beni Hatırla",
-		"submit": "Giriş Yap"
+		"submit": "Giriş Yap",
+		"emptyUsernameError": "Lütfen kullanıcı adınızı giriniz.",
+		"emptyPasswordError": "Lütfen şifrenizi giriniz.",
+		"authenticate": "Kimlik doğrulaması gerekli"
 	},
 
 	"Metadata": {
 		"login": "Giriş",
 		"notFound": "Sayfa Bulunamadı",
-		"notAuthorized": "Yetkisiz Erişim"
+		"notAuthorized": "Yetkisiz Erişim",
+		"messages": "Mesajlar",
+		"message": "Mesaj No: {id}",
+		"users": "Kullanıcılar"
 	},
 
 	"NotFound": {
@@ -55,5 +61,51 @@
 		"subHeading": "Yetkisiz Erişim",
 		"message": "Bu sayfayı görüntülemek için yetkiniz bulunmuyor.",
 		"button": "Anasayfaya Dön"
+	},
+
+	"Navbar": {
+		"login": "Giriş Yap",
+		"logout": "Çıkış Yap",
+		"messages": "Mesajlar",
+		"users": "Kullanıcılar",
+		"reports": "Raporlar"
+	},
+
+	"MessagesList": {
+		"title": "Mesajlar",
+		"id": "Numara",
+		"name": "İsim",
+		"gender": "Cinsiyet",
+		"country": "Ülke",
+		"noData": "Sonuç bulunamadı"
+	},
+
+	"MessageNotFound": {
+		"heading": "404",
+		"subHeading": "Mesaj Bulunamadı.",
+		"message": "Belirtilen numara ile mesaj bulunmuyor.",
+		"button": "Mesajlar Sayfasına Dön"
+	},
+
+	"MessageDetail": {
+		"heading": "Mesaj No: {id}",
+		"name": "Adı Soyadı",
+		"gender": "Cinsiyet",
+		"country": "Ülke",
+		"message": "Mesaj",
+		"date": "Tarih",
+		"delete": "Sil",
+		"deleteConfirm": "Mesajı silmek istediğinize emin misiniz?",
+		"confirm": "Evet, eminim",
+		"cancel": "Hayır, iptal et"
+	},
+
+	"UsersList": {
+		"title": "Kullanıcılar",
+		"id": "Numara",
+		"username": "Kullanıcı Adı",
+		"password": "Şifre",
+		"role": "Rol",
+		"noData": "Sonuç bulunamadı"
 	}
 }

@@ -34,19 +34,25 @@
 		"password": "Password",
 		"passwordPlaceholder": "Enter your password",
 		"rememberMe": "Remember me",
-		"submit": "Login"
+		"submit": "Login",
+		"emptyUsernameError": "Username is required",
+		"emptyPasswordError": "Password is required",
+		"authenticate": "Authentication required"
 	},
 
 	"Metadata": {
 		"login": "Login",
 		"notFound": "Not Found",
-		"notAuthorized": "Not Authorized"
+		"notAuthorized": "Not Authorized",
+		"messages": "Messages",
+		"message": "Message ID: {id}",
+		"users": "Users"
 	},
 
 	"NotFound": {
 		"heading": "404",
-		"subHeading": "Page not found",
-		"message": "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+		"subHeading": "Page Not Found",
+		"message": "The page you are looking for might have been removed, had its name changed or is temporarily unavailable.",
 		"button": "Go to home page"
 	},
 
@@ -55,5 +61,51 @@
 		"subHeading": "Not Authorized",
 		"message": "You are not authorized to access this page.",
 		"button": "Go to home page"
+	},
+
+	"Navbar": {
+		"login": "Login",
+		"logout": "Logout",
+		"messages": "Messages",
+		"users": "Users",
+		"reports": "Reports"
+	},
+
+	"MessagesList": {
+		"title": "Messages",
+		"id": "ID",
+		"name": "Name",
+		"gender": "Gender",
+		"country": "Country",
+		"noData": "No messages found"
+	},
+
+	"MessageNotFound": {
+		"heading": "404",
+		"subHeading": "Message Not Found",
+		"message": "The message with the specified ID does not exist.",
+		"button": "Go to messages"
+	},
+
+	"MessageDetail": {
+		"heading": "Message ID: {id}",
+		"name": "Name and Surname",
+		"gender": "Gender",
+		"country": "Country",
+		"message": "Message",
+		"date": "Date",
+		"delete": "Delete",
+		"deleteConfirm": "Are you sure you want to delete this message?",
+		"confirm": "Yes, I'm sure",
+		"cancel": "No, cancel"
+	},
+
+	"UsersList": {
+		"title": "Users",
+		"id": "ID",
+		"username": "Username",
+		"password": "Password",
+		"role": "Role",
+		"noData": "No users found"
 	}
 }
