@@ -1,8 +1,10 @@
-import AppProvider from "@/store/AppProvider";
-import "./globals.css";
+import { AppProvider } from "@/store";
+import "@/app/globals.css";
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Navbar, Footer } from "@/components";
+import { CustomNavbar, Footer } from "@/components";
 import { notFound } from "next/navigation";
 import {
 	AbstractIntlMessages,
@@ -26,18 +28,19 @@ export default function RootLayout({
 	children: React.ReactNode;
 	params: { locale: string };
 }) {
-	const cookieStore = cookies();
 	const locale = useLocale();
+
+	if (params.locale !== locale) {
+		notFound();
+	}
+
+	const cookieStore = cookies();
 	const messages = useMessages();
 
 	async function setTheme(theme: string) {
 		"use server";
 
 		cookieStore.set("theme", theme);
-	}
-
-	if (params.locale !== locale) {
-		notFound();
 	}
 
 	const theme = cookieStore.has("theme")
@@ -52,7 +55,14 @@ export default function RootLayout({
 		<AppProvider>
 			<html lang={params.locale} data-theme={theme}>
 				<body className={`${inter.className} flex flex-col h-screen`}>
-					<Navbar locale={params.locale} />
+					<NextIntlClientProvider
+						locale={locale}
+						messages={
+							pick(messages, "Navbar") as AbstractIntlMessages
+						}
+					>
+						<CustomNavbar />
+					</NextIntlClientProvider>
 					<div className="flex-1 flex">{children}</div>
 					<Footer />
 				</body>
